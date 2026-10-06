@@ -35,7 +35,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             contents=user_text
         )
         await update.message.reply_text(response.text)
-    except Exception as e:
+except Exception as e:
+    print("MY_ERROR:", str(e))
+    logging.error(f"Error: {e}")
+    await update.message.reply_text("عذراً، حدث خطأ أثناء معالجة طلبك.")
+
             print("MY_ERROR:", str(e))
     logging.error(f"Error: {e}")
 
