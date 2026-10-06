@@ -26,6 +26,9 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 
 # دالة للرد على الرسائل عبر Gemini #
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not update.message or not update.message.text:
+        return
+    
     user_text = update.message.text
     try:
         # استخدام النموذج المستقر المدعوم #
@@ -33,7 +36,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             model='gemini-2.0-flash',
             contents=user_text
         )
-        await update.message.reply_text(response.text)
+        
+        # التأكد من وجود نص في الرد قبل إرساله #
+        if response and response.text:
+            await update.message.reply_text(response.text)
+        else:
+            await update.message.reply_text("عذراً، لم أتمكن من توليد إجابة مناسبة.")
+            
     except Exception as e:
         print("MY_ERROR:", str(e))
         logging.error(f"Error: {e}")
