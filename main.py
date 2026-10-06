@@ -26,10 +26,9 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 
 # دالة للرد على الرسائل عبر Gemini #
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("RECEIVED MESSAGE:", update.message.text)
     user_text = update.message.text
     try:
-        # استخدام النموذج الصحيح المتوافق مع المكتبة الجديده #
+        # استخدام النموذج المعتمد والمتوافق #
         response = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=user_text
@@ -40,7 +39,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         logging.error(f"Error: {e}")
         await update.message.reply_text("عذراً، حدث خطأ أثناء معالجة طلبك.")
 
-# خادم وهمي لإبقاء بوت Render أو Railway نشطاً #
+# خادم وهمي لإبقاء بوت الاستضافة نشطاً #
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
