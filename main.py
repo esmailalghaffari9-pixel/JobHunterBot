@@ -28,9 +28,9 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text
     try:
-        # استخدام النموذج المعتمد والمتوافق #
+        # استخدام النموذج المستقر المدعوم #
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-2.0-flash',
             contents=user_text
         )
         await update.message.reply_text(response.text)
