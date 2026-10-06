@@ -21,11 +21,12 @@ logging.basicConfig(
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# الجديد تهيئة Gemini #
+# تهيئة Gemini #
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # دالة للرد على الرسائل عبر Gemini #
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    print("RECEIVED MESSAGE:", update.message.text)
     user_text = update.message.text
     try:
         # الرد السريع باستخدام نموذج gemini-1.5-flash #
@@ -39,7 +40,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         logging.error(f"Error: {e}")
         await update.message.reply_text("عذراً، حدث خطأ أثناء معالجة طلبك.")
 
-# نشطاً (Web Service Dummy Server) خادم وهمي لإبقاء بوت Render #
+# خادم وهمي لإبقاء بوت Render أو Railway نشطاً #
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
